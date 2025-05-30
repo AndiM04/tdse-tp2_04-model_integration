@@ -1,0 +1,46 @@
+  task_sensor.c (task_sensor.h, task_sensor_attribute.h) 
+   Non-Blocking & Update By Time Code -> Sensor Modeling
+  
+...
+
+Task_sensor_cfg_t es una estructura definida en otro archivo(el .h). Este guarda la configuración de un botón.
+Incluye la ID del boton, el puerto, el pin de GPIO, el valor lógico de presionado, el Daly máximo y las acciones a realizar al momento de presionar y soltar
+
+task_sensor_dta_t es otra estructura que guarda el estado interno del boton. 
+Incluye el tick(contador para evitar falsas pulsaciones), el estado y en que evento se encuentra (apretando, soltando, etc.)
+
+
+
+Estan las siguiente estructuras
+
+task_sensor_st_t: Define los estados UP, DOWN, FALLING, RISING
+
+task_sensor_ev_t: define los eventos UP, DOWN
+
+
+
+Están las siguiente funciones:
+
+task_sensor_init: Este inicializa el sistema de sensores(contadores, estado) e imprime la info x la consola
+
+task_sensor_update: Lee el estado del del botón, detecta eventos y cambia el estado del botón según se indique
+
+
+
+Hay una máquina de estados la cual cabia el estado del boton, espera a que el botón se presione, espera a que se suelte, para ellos define estados intermedios
+
+
+
+
+
+El código task_sensor_attribute.h define los tipos de datos y estructuras necesarias para manejar un sensor de estilo botón usando la maquina de estados finita
+
+Tipos de datos definidos:
+
+Eventos: Define los evetos UP y DOWN
+
+Estados: Define los estados UP, DOWS, FALLING, RISING
+
+ID: Añade un ID al botón
+
+Estructura: Genera una estructura con toda la información relevante del boton

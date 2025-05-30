@@ -1,0 +1,56 @@
+  task_system.c (task_system.h, task_system_attribute.h) 
+   Non-Blocking Code -> System Modeling
+  
+  task_system_interface.c (task_system_interface.h)
+   Non-Blocking Code
+
+De la linea 41 a la 53 incluye definiciones del proyecto:
+logger: herramientas de depuración
+board: controladores de hardware
+task_system, task_actuator: relacionados con el código
+
+De la linea 56 a la 61 se incluyen contadores, control de ticks y valores de delay
+
+Luego se define una estructura de datos la cual incluye:
+Delay
+State->Estado de la máquina
+Event->Evento recibido
+Flag->Indica si hay un evento
+
+Dfine 2 variables globales,
+
+Uint32_t g_task_system_cnt: Contador
+volatile (el anterior): Indica que esta variables puede ser modificado por interrupciones concurrentes
+
+
+En la linea 80 comienzan las funciones.
+Se define void tsk_system_init(void *parameters)
+Aqui se inicializan contadores, cola de eventos y registro de estado inicial y evento.
+Ademas utiliza funciones de logger.h para realizar impresiones en la terminal y "depurar" el código.
+
+
+Se define void task_system_update(void* paramenters)
+Aqui se suma g_task_system_cnt en cada llamado a la función Cuenta las veces que se ingresa a la función tasj_system_cnt;
+g_task_system_tick_cnt: contador de ticks del sistema que se compara con el inicial, es el que cuenta los ticks de la placa y es el responsable de la cantidad de veces que se va  teer que actualizar
+switch de estados, analiza los p_task_system_dta->state y depende de en qué caso este, realiza cierta actividad.
+
+
+
+task_system_interface
+En este código comienza difiniendose una estructura que contiene
+head: Cabeza de la fila, se utiliza para la función put_event_system
+tail:  Cola de la fila, se utiliza para la función get_event_task_system
+Estos dos son contadores para el array queue
+count: Contador sirve para conocer la cantidad de elementos que hay en el array
+queue: Array de eventos, aqui se pueden agregar o quitar eventos
+
+Luego define la función init_queue_event_task_system(void)
+Aqui se inicializa una estructura del tipo anterior
+
+Luego se define la función put_event_task_system.
+En esta función se añade un evento de tipo task_system_ev_t en la posición siguiente a head
+
+Finalmente se define la funcion get_evet_task_system.
+Aqui se extrae un evento del mismo tipo en la posición siguiente a tail.
+
+
